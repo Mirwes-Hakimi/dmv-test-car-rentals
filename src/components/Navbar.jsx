@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import React from "react";
-import logo from "../assets/logo.png";
+import logo from "/public/logo.png";
 
 const JOTFORM_BASE_URL =
   "https://form.jotform.com/mirwes210/DMV-TEST-CAR-RENTALS";

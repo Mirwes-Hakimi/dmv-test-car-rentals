@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
+<img src="/logo.png" alt="DMV Test Car Rentals Logo" />
+
 
 // JotForm URLs
 const JOTFORM_BASE_URL =
