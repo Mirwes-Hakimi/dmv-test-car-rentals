@@ -254,35 +254,59 @@ function App() {
         </section>
 
         {/* CONTACT & AREA */}
-        <section id="contact" className="section">
-          <h2 className="section-title">Service area & contact</h2>
-          <p>
-            <strong>DMV Test Car Rentals</strong>
-            <br />
-            5111 Old Redwood Hwy N
-            <br />
-            Petaluma, CA 94954
-            <br />
-            📞 925-334-8542
-          </p>
-          <p>
-            We serve Petaluma and nearby DMV locations, including Novato and
-            surrounding areas.
-          </p>
-          <div className="hero-actions">
-            <a href="tel:19253348542" className="btn btn-primary">
-              Call to Check Availability
-            </a>
-            <a
-              href={JOTFORM_BASE_URL}
-              className="btn btn-ghost"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Sign Rental Agreement
-            </a>
-          </div>
-        </section>
+       {/* CONTACT & AREA */}
+<section id="contact" className="section">
+  <h2 className="section-title">Service area & contact</h2>
+
+  <div className="two-col">
+    {/* Operations Base – Petaluma */}
+    <div>
+      <p>
+        <strong>DMV Test Car Rentals</strong>
+        <br />
+        5111 Old Redwood Hwy N
+        <br />
+        Petaluma, CA 94954
+        <br />
+        📞 925-334-8542
+      </p>
+   
+    </div>
+
+    {/* Virtual Office – San Francisco */}
+    <div>
+
+      <p>
+        <strong>DMV Test Car Rentals – San Francisco</strong>
+        <br />
+        166 Geary St #1234
+        <br />
+        San Francisco, CA 94108
+      </p>
+    </div>
+  </div>
+
+  <p style={{ marginTop: "1.5rem" }}>
+    We serve the wider San Francisco Bay Area, including San Francisco, San
+    Jose, Oakland, Hayward, El Cerrito, Pittsburg, Pleasanton, and surrounding
+    DMV locations.
+  </p>
+
+  <div className="hero-actions">
+    <a href="tel:19253348542" className="btn btn-primary">
+      Call to Check Availability
+    </a>
+    <a
+      href={JOTFORM_BASE_URL}
+      className="btn btn-ghost"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Sign Rental Agreement
+    </a>
+  </div>
+</section>
+
       </main>
 
       {/* FOOTER */}
