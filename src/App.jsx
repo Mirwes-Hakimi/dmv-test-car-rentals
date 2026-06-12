@@ -1,14 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-<img src="/logo.png" alt="DMV Test Car Rentals Logo" />
 
-
-// JotForm URLs
 const JOTFORM_BASE_URL =
   "https://form.jotform.com/mirwes210/DMV-TEST-CAR-RENTALS";
 
-// Prefilled URLs for packages (uses your SelectYourPackage field):
 const DMV_TEST_RENTAL_URL =
   JOTFORM_BASE_URL +
   "?SelectYourPackage=DMV%20Test%20Rental%20%E2%80%94%20%24249";
@@ -17,207 +13,250 @@ const EXPERIENCE_BOOST_URL =
   JOTFORM_BASE_URL +
   "?SelectYourPackage=Experience%20Boost%20(45%E2%80%9360%20min%20Warm-Up%20Drive)%20%E2%80%94%20%24369";
 
+function useScrollReveal() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
 
-
-  function ThankYouPage() {
+function ThankYouPage() {
   return (
-    <div className="page thankyou-page">
-      <div className="card thankyou-card">
+    <div className="thankyou-page">
+      <div className="thankyou-card">
         <div className="thankyou-icon">✅</div>
-        <h1 className="section-title">Thank you!</h1>
-        <p className="section-sub">
+        <h1>Thank you!</h1>
+        <p className="text-muted">
           Your DMV Test Car Rental request has been received.
         </p>
-        <ul className="checklist">
-          <li>You’ll receive a confirmation email with all your details.</li>
+        <ul className="feature-list" style={{ textAlign: "left", maxWidth: 420, margin: "1rem auto" }}>
+          <li>You'll receive a confirmation email with all your details.</li>
           <li>Please arrive 15 minutes before your DMV appointment time.</li>
           <li>Bring your permit/license and DMV appointment paperwork.</li>
         </ul>
-        <div className="hero-actions" style={{ marginTop: "1.5rem" }}>
-          <a href="/" className="btn btn-primary">
-            Back to Home
-          </a>
-          <a href="tel:19253348542" className="btn btn-ghost">
-            📞 Call 925-334-8542
-          </a>
+        <div className="cta-row" style={{ marginTop: "1.75rem", justifyContent: "center" }}>
+          <a href="/" className="btn btn-primary">Back to Home</a>
+          <a href="tel:19253348542" className="btn btn-ghost">📞 Call 925-334-8542</a>
         </div>
       </div>
     </div>
   );
 }
 
-
-
-
-
 function App() {
+  const [scrolled, setScrolled] = useState(false);
   const currentYear = new Date().getFullYear();
   const hash = window.location.hash;
 
-  // If URL is .../#thankyou → show only the Thank You page
-  if (hash === "#thankyou") {
-    return <ThankYouPage />;
-  }
+  useScrollReveal();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  if (hash === "#thankyou") return <ThankYouPage />;
 
   return (
     <div className="page">
-      {/* NAVBAR */}
-      <Navbar />
+      <Navbar scrolled={scrolled} />
 
       {/* HERO */}
       <section className="hero">
+        <div className="hero-bg" />
+        <div className="hero-grid" />
         <div className="hero-inner">
-          <div className="hero-badge">
-            San Francisco-Bay Area • DMV Test Only • Fully Insured
+          <div className="hero-eyebrow">
+            <span className="hero-dot" />
+            San Francisco Bay Area &bull; Fully Insured &bull; DMV Test Only
           </div>
           <h1 className="hero-title">
-            Stress-free DMV test car rentals in{" "}
-            <span className="hero-highlight">San Francisco-Bay Area, CA</span>
+            Pass your DMV test with{" "}
+            <span className="gradient-text">confidence</span>
           </h1>
-          <p className="hero-text">
+          <p className="hero-sub">
             No car? No problem. Reserve a clean, fully insured vehicle for your
-            DMV drive test and a licensed adult to ride with you. Show up,
+            DMV drive test with a licensed adult to ride along. Show up,
             drive, done.
           </p>
-          <div className="hero-actions">
+          <div className="cta-row">
             <a
               href={DMV_TEST_RENTAL_URL}
               className="btn btn-primary"
               target="_blank"
               rel="noreferrer"
             >
-              📝 Book DMV Test Car
+              Book DMV Test Car
             </a>
             <a href="#pricing" className="btn btn-ghost">
               View Pricing
             </a>
           </div>
-          <div className="hero-meta">
+          <div className="trust-badges">
             <span>✔ DMV-ready vehicle</span>
-            <span>✔ Licensed adult in passenger seat</span>
-            <span>✔ Not a driving school</span>
+            <span>✔ Licensed adult included</span>
+            <span>✔ Bay Area wide</span>
           </div>
         </div>
       </section>
 
-      {/* MAIN CARD */}
-      <main className="card">
+      {/* STATS */}
+      <div className="stats-wrapper reveal">
+        <div className="stats-inner">
+          <div className="stat-item">
+            <div className="stat-number">100%</div>
+            <div className="stat-label">Fully Insured</div>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <div className="stat-number">10+</div>
+            <div className="stat-label">Bay Area DMV Offices</div>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <div className="stat-number">$230</div>
+            <div className="stat-label">Starting Price</div>
+          </div>
+          <div className="stat-divider" />
+          <div className="stat-item">
+            <div className="stat-number">60 min</div>
+            <div className="stat-label">Warm-Up Option</div>
+          </div>
+        </div>
+      </div>
+
+      <main className="main-content">
         {/* HOW IT WORKS */}
-        <section id="book" className="section">
-          <h2 className="section-title">How it works</h2>
-          <p className="section-sub">
-            Simple 3-step process so you can focus on passing — not logistics.
-          </p>
+        <section id="book" className="section reveal">
+          <div className="section-header">
+            <div className="section-tag">Simple Process</div>
+            <h2 className="section-title">How it works</h2>
+            <p className="section-sub">
+              3 steps. Zero stress. Focus on passing — not logistics.
+            </p>
+          </div>
           <div className="steps-grid">
-            <div className="step-card">
-              <div className="step-icon">1</div>
-              <h3>Reserve</h3>
-              <p>
-                Pick your DMV office, date, and time. Complete the online rental
-                agreement so your car is guaranteed for test day.
-              </p>
-            </div>
-            <div className="step-card">
-              <div className="step-icon">2</div>
-              <h3>Meet at DMV</h3>
-              <p>
-                On test day we meet you at the DMV with a clean, fully insured
-                vehicle and a licensed adult in the passenger seat.
-              </p>
-            </div>
-            <div className="step-card">
-              <div className="step-icon">3</div>
-              <h3>Take your test</h3>
-              <p>
-                You use our car for the entire drive test. We wait, then you
-                return the keys and walk away — no awkward favors from friends
-                or family.
-              </p>
-            </div>
+            {[
+              {
+                num: "01",
+                title: "Reserve",
+                desc: "Pick your DMV office, date, and time. Complete the online rental agreement so your car is guaranteed for test day.",
+              },
+              {
+                num: "02",
+                title: "Meet at DMV",
+                desc: "On test day we meet you at the DMV with a clean, fully insured vehicle and a licensed adult in the passenger seat.",
+              },
+              {
+                num: "03",
+                title: "Take your test",
+                desc: "You use our car for the entire drive test. We wait, then you return the keys and walk away — no awkward favors from friends or family.",
+              },
+            ].map((step, i) => (
+              <div
+                key={i}
+                className="step-card"
+                style={{ transitionDelay: `${i * 0.1}s` }}
+              >
+                <div className="step-number">{step.num}</div>
+                <h3 className="step-title">{step.title}</h3>
+                <p className="step-desc">{step.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* PRICING SECTION */}
-        <section id="pricing" className="section">
-          <h2 className="section-title">Choose your package</h2>
-          <p className="section-sub">
-            Transparent pricing with no surprises. All rentals include a
-            DMV-ready, fully insured vehicle and a licensed adult in the
-            passenger seat.
-          </p>
-
+        {/* PRICING */}
+        <section id="pricing" className="section reveal">
+          <div className="section-header">
+            <div className="section-tag">Transparent Pricing</div>
+            <h2 className="section-title">Choose your package</h2>
+            <p className="section-sub">
+              No surprises. All rentals include a DMV-ready, fully insured
+              vehicle and a licensed adult in the passenger seat.
+            </p>
+          </div>
           <div className="pricing-grid">
-            {/* CARD 1 – DMV Test Rental */}
+            {/* Card 1 */}
             <div className="price-card">
               <h3 className="price-title">DMV Test Rental</h3>
               <p className="price-sub">
-                Ideal if you already feel comfortable driving and just need a
-                DMV-approved car for your test.
+                Already comfortable driving? Just need the right car for
+                your test day.
               </p>
-              <ul className="checklist">
+              <div className="price-amount">
+                <span className="price-from">From</span>$230
+              </div>
+              <ul className="feature-list">
                 <li>DMV-compliant, fully insured vehicle</li>
                 <li>Licensed adult to accompany you during the test</li>
-                <li>
-                  5–10 minute vehicle orientation (quick orientation only, no
-                  driving instruction)
-                </li>
+                <li>5–10 min vehicle orientation (orientation only)</li>
                 <li>Meet directly at your DMV location</li>
               </ul>
-              <div className="price-amount">From $230</div>
               <a
                 href={DMV_TEST_RENTAL_URL}
-                className="btn btn-primary price-btn"
+                className="btn btn-ghost price-btn"
                 target="_blank"
                 rel="noreferrer"
               >
-                Book DMV Test Rental
+                Book DMV Test Rental →
               </a>
             </div>
 
-            {/* CARD 2 – Experience Boost (Warm-Up Session) */}
+            {/* Card 2 – highlight */}
             <div className="price-card price-card-highlight">
               <div className="price-badge">Most Popular</div>
-              <h3 className="price-title">
-                Experience Boost (45–60 min Warm-Up Drive + dmv test rental) 
-              </h3>
+              <h3 className="price-title">Experience Boost</h3>
               <p className="price-sub">
-                For drivers who want to feel more comfortable and confident
-                before their test. Includes extra driving time with the rental
-                vehicle on public roads.
+                45–60 min warm-up drive + full DMV test rental. Build
+                confidence before you go in.
               </p>
-              <ul className="checklist">
-                <li>All “DMV Test Rental” benefits</li>
-                <li>
-                  45–60 min warm-up driving on public roads (not on DMV property
-                  or within 200 ft of DMV)
-                </li>
-                <li>
-                  Familiarize yourself with steering, braking, and handling
-                </li>
-                <li>Reduce test-day nerves</li>
+              <div className="price-amount">
+                <span className="price-from">From</span>$300
+              </div>
+              <ul className="feature-list">
+                <li>All DMV Test Rental benefits</li>
+                <li>45–60 min warm-up on public roads</li>
+                <li>Familiarize with steering, braking &amp; handling</li>
+                <li>Reduce test-day nerves significantly</li>
               </ul>
-              <div className="price-amount">From $300</div>
               <a
                 href={EXPERIENCE_BOOST_URL}
                 className="btn btn-primary price-btn"
                 target="_blank"
                 rel="noreferrer"
               >
-                Book Experience Boost
+                Book Experience Boost →
               </a>
-              <p className="price-note">
-                Quick orientation only. No driving instruction.
-              </p>
+              <p className="price-note">Quick orientation only. No driving instruction.</p>
             </div>
           </div>
         </section>
 
         {/* INCLUDED / NOT INCLUDED */}
-        <section className="section">
+        <section className="section reveal">
+          <div className="section-header">
+            <div className="section-tag">Transparency</div>
+            <h2 className="section-title">What&apos;s included</h2>
+          </div>
           <div className="two-col">
-            <div className="pill-card pill-card-green">
-              <h2 className="section-title-sm">What&apos;s included</h2>
-              <ul className="checklist">
+            <div className="included-card included-yes">
+              <h3 className="included-title">
+                <span className="included-icon">✓</span>
+                What&apos;s Included
+              </h3>
+              <ul className="feature-list">
                 <li>DMV-approved, fully insured vehicle</li>
                 <li>Licensed adult to accompany you during the test</li>
                 <li>Pre-test vehicle orientation (mirrors, seat, controls)</li>
@@ -225,108 +264,121 @@ function App() {
                 <li>Use of the vehicle for the full drive test</li>
               </ul>
             </div>
-            <div className="pill-card pill-card-red">
-              <h2 className="section-title-sm">What&apos;s NOT included</h2>
-              <ul className="checklist">
+            <div className="included-card included-no">
+              <h3 className="included-title">
+                <span className="included-icon not">✗</span>
+                What&apos;s NOT Included
+              </h3>
+              <ul className="feature-list not">
                 <li>No driving school services</li>
                 <li>No driving lessons as part of the rental</li>
                 <li>No coaching or corrections during the DMV test</li>
-                <li>
-                  No practice driving near or within 200 feet of DMV property
-                </li>
               </ul>
             </div>
           </div>
         </section>
 
         {/* ORIENTATION */}
-        <section className="section">
-          <h2 className="section-title">Optional pre-test vehicle orientation</h2>
-          <p className="section-sub">
-            <strong>This is a quick orientation only. No driving instruction.</strong>
-          </p>
+        <section className="section reveal">
+          <div className="section-header">
+            <div className="section-tag">Pre-Test</div>
+            <h2 className="section-title">Optional vehicle orientation</h2>
+            <p className="section-sub">
+              <strong>Quick orientation only — not driving instruction.</strong>
+            </p>
+          </div>
           <div className="orientation-grid">
-            <div className="orientation-item">Seat &amp; mirror setup</div>
-            <div className="orientation-item">Signals, lights &amp; wipers</div>
-            <div className="orientation-item">Brake &amp; steering feel</div>
-            <div className="orientation-item">General safety reminders</div>
+            {[
+              "Seat & mirror setup",
+              "Signals, lights & wipers",
+              "Brake & steering feel",
+              "General safety reminders",
+            ].map((item, i) => (
+              <div key={i} className="orientation-item">
+                {item}
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* CONTACT & AREA */}
-       {/* CONTACT & AREA */}
-<section id="contact" className="section">
-  <h2 className="section-title">Service area & contact</h2>
-
-  <div className="two-col">
-    {/* Operations Base – Petaluma */}
-    <div>
-      <p>
-        <strong>DMV Test Car Rentals</strong>
-        <br />
-        5111 Old Redwood Hwy N
-        <br />
-        Petaluma, CA 94954
-        <br />
-        📞 925-334-8542
-      </p>
-   
-    </div>
-
-    {/* Virtual Office – San Francisco */}
-    <div>
-
-      <p>
-        <strong>DMV Test Car Rentals – San Francisco</strong>
-        <br />
-        166 Geary St #1234
-        <br />
-        San Francisco, CA 94108
-      </p>
-    </div>
-  </div>
-
-  <p style={{ marginTop: "1.5rem" }}>
-    We serve the wider San Francisco Bay Area, including San Francisco, San
-    Jose, Oakland, Hayward, El Cerrito, Pittsburg, Pleasanton, and surrounding
-    DMV locations.
-  </p>
-
-  <div className="hero-actions">
-    <a href="tel:19253348542" className="btn btn-primary">
-      Call to Check Availability
-    </a>
-    <a
-      href={JOTFORM_BASE_URL}
-      className="btn btn-ghost"
-      target="_blank"
-      rel="noreferrer"
-    >
-      Sign Rental Agreement
-    </a>
-  </div>
-</section>
-
+        {/* CONTACT */}
+        <section id="contact" className="section reveal">
+          <div className="section-header">
+            <div className="section-tag">Get In Touch</div>
+            <h2 className="section-title">Service area &amp; contact</h2>
+          </div>
+          <div className="contact-grid">
+            <div className="contact-card">
+              <div className="contact-icon">📍</div>
+              <h4>Operations Base</h4>
+              <p>
+                5111 Old Redwood Hwy N
+                <br />
+                Petaluma, CA 94954
+              </p>
+              <a href="tel:19253348542" className="contact-link">
+                📞 925-334-8542
+              </a>
+            </div>
+            <div className="contact-card">
+              <div className="contact-icon">🏙️</div>
+              <h4>San Francisco Office</h4>
+              <p>
+                166 Geary St #1234
+                <br />
+                San Francisco, CA 94108
+              </p>
+            </div>
+            <div className="contact-card">
+              <div className="contact-icon">🗺️</div>
+              <h4>Service Area</h4>
+              <p>
+                San Francisco, San Jose, Oakland, Hayward, El Cerrito,
+                Pittsburg, Pleasanton, and surrounding DMV locations.
+              </p>
+            </div>
+          </div>
+          <div className="cta-row" style={{ marginTop: "2rem" }}>
+            <a href="tel:19253348542" className="btn btn-primary">
+              Call to Check Availability
+            </a>
+            <a
+              href={JOTFORM_BASE_URL}
+              className="btn btn-ghost"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Sign Rental Agreement
+            </a>
+          </div>
+        </section>
       </main>
 
       {/* FOOTER */}
       <footer className="footer">
-      <a
-  href="https://form.jotform.com/mirwes210/DMV-TEST-CAR-RENTALS"
-  className="btn btn-primary"
-  target="_blank"
-  rel="noreferrer"
->
-  📝 Book Your DMV Test Car
-</a>
-
-        <p>
-          <strong>Legal Notice:</strong> DMV Test Car Rentals is not a driving
-          school. The rental service provides DMV test vehicles and a licensed
-          accompanying adult only. No driving school services are provided as
-          part of the rental.
-        </p>
-        <p>© {currentYear} DMV Test Car Rentals. All rights reserved.</p>
+        <div className="footer-inner">
+          <div className="footer-cta reveal">
+            <h3>Ready to pass your DMV test?</h3>
+            <p>Book your car today — spots fill fast.</p>
+            <a
+              href={JOTFORM_BASE_URL}
+              className="btn btn-primary"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Book Your DMV Test Car
+            </a>
+          </div>
+          <div className="footer-legal">
+            <p>
+              <strong>Legal Notice:</strong> DMV Test Car Rentals is not a
+              driving school. The rental service provides DMV test vehicles and
+              a licensed accompanying adult only. No driving school services are
+              provided as part of the rental.
+            </p>
+            <p>© {currentYear} DMV Test Car Rentals. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
