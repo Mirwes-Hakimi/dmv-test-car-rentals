@@ -1,15 +1,12 @@
 import { useEffect } from "react";
-import { GTAG_ID, CONVERSION_LABEL } from "../analytics";
 
 export default function ThankYou() {
   useEffect(() => {
-    // Defensive check: ad blockers may remove window.gtag entirely.
-    // This prevents a crash while still firing when the script loaded.
-    if (typeof window.gtag === "function") {
-      window.gtag("event", "conversion", {
-        send_to: `${GTAG_ID}/${CONVERSION_LABEL}`,
-      });
-    }
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex";
+    document.head.appendChild(meta);
+    return () => document.head.removeChild(meta);
   }, []);
 
   return (
