@@ -30,33 +30,9 @@ function useScrollReveal() {
   }, []);
 }
 
-function ThankYouPage() {
-  return (
-    <div className="thankyou-page">
-      <div className="thankyou-card">
-        <div className="thankyou-icon">✅</div>
-        <h1>Thank you!</h1>
-        <p className="text-muted">
-          Your DMV Test Car Rental request has been received.
-        </p>
-        <ul className="feature-list" style={{ textAlign: "left", maxWidth: 420, margin: "1rem auto" }}>
-          <li>You'll receive a confirmation email with all your details.</li>
-          <li>Please arrive 15 minutes before your DMV appointment time.</li>
-          <li>Bring your permit/license and DMV appointment paperwork.</li>
-        </ul>
-        <div className="cta-row" style={{ marginTop: "1.75rem", justifyContent: "center" }}>
-          <a href="/" className="btn btn-primary">Back to Home</a>
-          <a href="tel:19253348542" className="btn btn-ghost">📞 Call 925-334-8542</a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const currentYear = new Date().getFullYear();
-  const hash = window.location.hash;
 
   useScrollReveal();
 
@@ -65,8 +41,6 @@ function App() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  if (hash === "#thankyou") return <ThankYouPage />;
 
   return (
     <div className="page">
