@@ -18,7 +18,7 @@ export default function ThankYou() {
         <div className="thankyou-icon">✅</div>
         <h1>Booking request received!</h1>
         <p className="text-muted">
-          Thanks! We'll confirm your DMV test appointment shortly.
+          Thanks! We will confirm your DMV test appointment shortly.
         </p>
         <ul
           className="feature-list"
